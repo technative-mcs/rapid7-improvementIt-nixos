@@ -8,10 +8,24 @@
   outputs = { self, nixpkgs }:
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      supportedSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+      nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; config.allowUnfree = true; config.cudaSupport= true; overlays = [  ];  });
+
     in
       {
-      packages.x86_64-linux = {
-        ir_agent = pkgs.callPackage ./default.nix { };
-      };
+      packages = forAllSystems (system:
+        let
+          pkgs = nixpkgsFor.${system};
+        in
+          {
+          default =
+            pkgs.callPackage ./default.nix { };
+        });
+
+      nixosModules = forAllSystems (system:
+        {
+          default =  import ./service.nix;
+        });
     };
 }
