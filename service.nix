@@ -58,7 +58,7 @@ in
 
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${defaultSpaceDir}/ir_agent/components/insight_agent/${version}/ir_agent ${cfg.confOptions}";
+        ExecStart = "${defaultSpaceDir}/ir_agent/components/insight_agent/${version}/ir_agent --bootstrap-common ${defaultSpaceDir}/ir_agent/components/bootstrap/common -a ${defaultSpaceDir}/ir_agent/components/insight_agent/common ${cfg.confOptions}";
         Restart = "on-failure";
         RestartSec = "2min";
         KillMode = "process";
