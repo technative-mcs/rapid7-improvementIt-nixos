@@ -7,7 +7,6 @@
 let
   cfg = config.services.rapid7;
   defaultSpaceDir = "/opt/rapid7";
-  version = "4.0.18.46";
 in
 {
   options = {
@@ -58,7 +57,7 @@ in
 
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${defaultSpaceDir}/ir_agent/components/insight_agent/${version}/ir_agent --bootstrap-common ${defaultSpaceDir}/ir_agent/components/bootstrap/common --agent-common ${defaultSpaceDir}/ir_agent/components/insight_agent/common ${cfg.confOptions}";
+        ExecStart = "${defaultSpaceDir}/ir_agent/ir_agent";
         Restart = "on-failure";
         RestartSec = "2min";
         KillMode = "process";

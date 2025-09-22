@@ -64,6 +64,12 @@ let
 
       ln -s "$ir_agent" "$out/bin/ir_agent"
 
+      ln -s -f $out/opt/rapid7/ir_agent/components/insight_agent/${version}/ir_agent $out/opt/rapid7/ir_agent/components/insight_agent/insight_agent
+
+      cp $out/opt/rapid7/ir_agent/components/bootstrap/2.12.0.1/bootstrap $out/opt/rapid7/ir_agent/ir_agent
+
+      ln -s -f $out/opt/rapid7/ir_agent/components/endpoint_broker/1.8.2.0/rapid7_endpoint_broker $out/opt/rapid7/ir_agent/components/endpoint_broker/endpoint_broker
+
       runHook postInstall
     '';
 
