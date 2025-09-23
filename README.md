@@ -15,7 +15,7 @@ This repo builds the closed source package rapid7 and creates two Nix modules:
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    rapid7.url = "github:technative-mcs/rapid7-nixos";
+    rapid7.url = "github:technative-mcs/rapid7-improvementIt-nixos";
   };
 
   outputs = { self, nixpkgs, rapid7 }:
@@ -36,7 +36,7 @@ This repo builds the closed source package rapid7 and creates two Nix modules:
 }
 ```
 
-2. Download certificates:
+2. Download the certificates by running this command on the remote server:
 ```bash
 sudo /opt/rapid7/ir_agent/components/insight_agent/4.0.18.46/configure_agent.sh --token=<specifiy-token-here> -v --start --no_version_check
 ```
