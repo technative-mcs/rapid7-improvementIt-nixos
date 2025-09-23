@@ -36,12 +36,7 @@ This repo builds the closed source package rapid7 and creates two Nix modules:
 }
 ```
 
-2. Download the certificates by running this command on the remote server:
-```bash
-sudo /opt/rapid7/ir_agent/components/insight_agent/4.0.18.46/configure_agent.sh --token=<specifiy-token-here> -v --start --no_version_check
-```
-
-3. Then enable the ir_agent service:
+2. Then enable the ir_agent service:
 ```nix
 { ... }:
 {
@@ -50,3 +45,10 @@ sudo /opt/rapid7/ir_agent/components/insight_agent/4.0.18.46/configure_agent.sh 
   };
 }
 ```
+The service won't work, if you don't do step 3.
+
+3. Download the certificates by running this command on the remote server:
+```bash
+sudo /opt/rapid7/ir_agent/components/insight_agent/4.0.18.46/configure_agent.sh --token=<specifiy-token-here> -v --start --no_version_check
+```
+
