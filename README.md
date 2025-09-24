@@ -52,3 +52,24 @@ The service won't work, if you don't do step 3.
 sudo /opt/rapid7/ir_agent/components/insight_agent/4.0.18.46/configure_agent.sh --token=<specifiy-token-here> -v --start --no_version_check
 ```
 
+
+## errors
+
+There is an issue that the files are not copied over to `/opt/rapid7/ir_agent` and thus the command won't work.
+To fix it, run the following:
+```bash
+find /nix/store -name "*ir_agent*"
+```
+
+There will be many results but you need the first one, which looks like this:
+```
+/nix/store/ax8gh1qz2cxh6kf4bcqx9y45fhdl0aad-rapid7-insight-agent-4.0.18.46/opt/rapid7/ir_agent
+```
+
+Then to copy the files run:
+```bash
+cd /nix/store/ax8gh1qz2cxh6kf4bcqx9y45fhdl0aad-rapid7-insight-agent-4.0.18.46/opt/rapid7/ir_agent
+cp -r . /opt/rapid7/ir_agent/
+```
+
+
