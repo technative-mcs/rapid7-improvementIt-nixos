@@ -50,10 +50,20 @@ in
         fi
     '';
 
+    systemd.services.rapid7_endpoint_broker = {
+      description = "rapid7_endpoint_broker for ir_agent";
+      wantedBy = [ "multi-user.target" ];
+      requires = [ "ir_agent.service" ];
+      partOf   = [ "ir_agent.service" ];
+      after    = [ "ir_agent.service" ];
+      serviceConfig.ExecStart = "${defaultSpaceDir}/ir_agent/components/endpoint_broker/1.8.2.0/rapid7_endpoint_broker";
+    };
+
     systemd.services.ir_agent = {
       description = "Rapid7 Insight Agent";
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
+      wants = [ "rapid7_endpoint_broker.service" ]; # "rapid7_agent_core.service" "insight_agent.service" "insight_agent1.service" "insight_agent2.service" ];
 
       serviceConfig = {
         Type = "simple";
