@@ -5,6 +5,8 @@ This repo builds the closed source package rapid7 and creates two Nix modules:
 - Service
 
 
+# Requirements
+- Version of atleast 25.05 of nixpkgs
 
 # installation
 
@@ -61,7 +63,7 @@ To fix it, run the following:
 find /nix/store -name "*ir_agent*"
 ```
 
-There will be many results but you need the first one, which looks like this:
+There will be many results but you need the first one, which could looks like this:
 ```
 /nix/store/ax8gh1qz2cxh6kf4bcqx9y45fhdl0aad-rapid7-insight-agent-4.0.18.46/opt/rapid7/ir_agent
 ```

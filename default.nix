@@ -16,7 +16,7 @@ let
     dpkg-deb -R $src .
     '';
 
-    buildInputs = [ pkgs.zlib ];
+    buildInputs = [ pkgs.zlib pkgs.openssl pkgs.libffi ]; # bring OpenSSL into the store
 
     installPhase = ''
       runHook preInstall
@@ -36,8 +36,6 @@ let
       rpath="${pkgs.glibc}/lib:${pkgs.zlib.out}/lib:${pkgs.openssl.out}/lib:$libs"
 
       echo ">> Patch main binary"
-
-      sudo ./$out/DEBIAN/postinst
 
       patchelf \
         --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
@@ -63,14 +61,6 @@ let
       echo ">> Patch bundled .so files"
       find "$libs" -type f -name '*.so*' -exec \
       patchelf --set-rpath "$rpath" {} +
-
-      ln -s "$ir_agent" "$out/bin/ir_agent"
-
-      ln -s -f $out/opt/rapid7/ir_agent/components/insight_agent/${version}/ir_agent $out/opt/rapid7/ir_agent/components/insight_agent/insight_agent
-
-      cp $out/opt/rapid7/ir_agent/components/bootstrap/2.12.0.1/bootstrap $out/opt/rapid7/ir_agent/ir_agent
-
-      ln -s -f $out/opt/rapid7/ir_agent/components/endpoint_broker/1.8.2.0/rapid7_endpoint_broker $out/opt/rapid7/ir_agent/components/endpoint_broker/endpoint_broker
 
       runHook postInstall
     '';
