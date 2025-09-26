@@ -13,7 +13,7 @@ let
     src = ./rapid7-insight-agent_4.0.18.46-1_amd64.deb;
 
     unpackPhase = ''
-    dpkg-deb -x $src .
+    dpkg-deb -R $src .
     '';
 
     buildInputs = [ pkgs.zlib ];
@@ -22,7 +22,7 @@ let
       runHook preInstall
 
       mkdir -p $out/bin
-      cp -r opt $out/
+      cp -r opt DEBIAN $out/
 
       insight_agent="$out/opt/rapid7/ir_agent/components/insight_agent/${version}"
       endpoint_broker="$out/opt/rapid7/ir_agent/components/endpoint_broker/1.8.2.0"
@@ -36,6 +36,7 @@ let
       rpath="${pkgs.glibc}/lib:${pkgs.zlib.out}/lib:${pkgs.openssl.out}/lib:$libs"
 
       echo ">> Patch main binary"
+
 
       patchelf \
         --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \

@@ -56,7 +56,10 @@ in
       requires = [ "ir_agent.service" ];
       partOf   = [ "ir_agent.service" ];
       after    = [ "ir_agent.service" ];
-      serviceConfig.ExecStart = "${defaultSpaceDir}/ir_agent/components/endpoint_broker/1.8.2.0/rapid7_endpoint_broker";
+      serviceConfig = {
+        WorkingDirectory = "${defaultSpaceDir}/ir_agent";
+        ExecStart = "${defaultSpaceDir}/ir_agent/components/endpoint_broker/1.8.2.0/rapid7_endpoint_broker";
+      };
     };
 
     systemd.services.ir_agent = {
