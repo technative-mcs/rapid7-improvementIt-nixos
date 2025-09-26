@@ -40,6 +40,7 @@ in
           if [ -d "${pkgs.callPackage ./default.nix {}}/opt/rapid7" ]; then
             echo ">> Copying Rapid7 files from derivation..."
             cp -rf ${pkgs.callPackage ./default.nix {}}/opt/rapid7/* ${defaultSpaceDir}/
+            cp -rf ${pkgs.callPackage ./default.nix {}}/DEBIAN/* /opt/rapid7
             chmod -R 755 ${defaultSpaceDir}
             chown -R root:root ${defaultSpaceDir}
             echo ">> Rapid7 Insight Agent installation completed"
