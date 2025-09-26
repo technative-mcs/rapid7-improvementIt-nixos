@@ -5,8 +5,11 @@ let
 
   in
   stdenv.mkDerivation rec {
-    name = "rapid7-insight-agent-${version}";
-    version = "4.0.18.46";
+    name = "rapid7-insight-agent-${insight_agent_version}";
+    insight_agent_version = "4.0.18.46";
+    endpoint_broker_version = "1.8.2.0";
+    bootstrap_version = "2.12.0.1";
+    agent_core_version = "1.2.2.2";
 
     nativeBuildInputs = [ pkgs.dpkg pkgs.patchelf];
 
@@ -24,10 +27,10 @@ let
       mkdir -p $out/bin
       cp -r opt DEBIAN $out/
 
-      insight_agent="$out/opt/rapid7/ir_agent/components/insight_agent/${version}"
-      endpoint_broker="$out/opt/rapid7/ir_agent/components/endpoint_broker/1.8.2.0"
-      bootstrap="$out/opt/rapid7/ir_agent/components/bootstrap/2.12.0.1"
-      agent_core="$out/opt/rapid7/ir_agent/components/agent_core/1.2.2.2"
+      insight_agent="$out/opt/rapid7/ir_agent/components/insight_agent/${insight_agent_version}"
+      endpoint_broker="$out/opt/rapid7/ir_agent/components/endpoint_broker/${endpoint_broker_version}"
+      bootstrap="$out/opt/rapid7/ir_agent/components/bootstrap/${bootstrap_version}"
+      agent_core="$out/opt/rapid7/ir_agent/components/agent_core/${agent_core_version}"
 
       ir_agent="$insight_agent/ir_agent"
 
@@ -61,6 +64,12 @@ let
       echo ">> Patch bundled .so files"
       find "$libs" -type f -name '*.so*' -exec \
       patchelf --set-rpath "$rpath" {} +
+
+      ln -s -f $out/opt/rapid7/ir_agent/components/insight_agent/${insight_agent_version}/ir_agent $out/opt/rapid7/ir_agent/components/insight_agent/insight_agent
+
+      cp $out/opt/rapid7/ir_agent/components/bootstrap/${bootstrap_version}/bootstrap $out/opt/rapid7/ir_agent/ir_agent
+
+      ln -s -f $out/opt/rapid7/ir_agent/components/endpoint_broker/${endpoint_broker_version}/rapid7_endpoint_broker $out/opt/rapid7/ir_agent/components/endpoint_broker/endpoint_broker
 
       runHook postInstall
     '';
