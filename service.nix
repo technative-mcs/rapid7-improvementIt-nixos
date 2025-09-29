@@ -12,15 +12,6 @@ in
   options = {
     services.rapid7 = {
       enable = lib.mkEnableOption "";
-
-      confOptions = lib.mkOption {
-        type = lib.types.str;
-        default = "";
-        example = "";
-        description = ''
-        '';
-      };
-
     };
   };
 
